@@ -1,4 +1,3 @@
-# k8_minikube_automation
 # My Application Deployment
 
 This repository contains Kubernetes manifests for deploying a sample application using ArgoCD.
