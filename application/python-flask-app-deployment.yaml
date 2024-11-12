@@ -17,7 +17,7 @@ spec:
       containers:
         - name: python-flask
           image: python:3.9-slim
-          command: ["sh", "-c", "pip install -r /requirements.txt && python /app.py"]
+          command: ["sh", "-c", "pip install -r /application/requirements.txt && python /application/app.py"]
           ports:
             - containerPort: 5000
           volumeMounts:
