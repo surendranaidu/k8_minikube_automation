@@ -17,6 +17,7 @@ spec:
       containers:
         - name: python-flask
           image: python:3.9-slim
+          command: ["python", "/app/app.py"]  # Ensure Flask app runs as the main process
           ports:
             - containerPort: 5000
           volumeMounts:
@@ -26,16 +27,3 @@ spec:
         - name: app-volume
           configMap:
             name: python-flask-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: python-flask-service
-spec:
-  selector:
-    app: python-flask
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 5000
-  type: LoadBalancer
