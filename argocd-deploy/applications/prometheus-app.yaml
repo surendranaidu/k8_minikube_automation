@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: <GIT_REPO_URL>
+    repoURL: https://github.com/surendranaidu/k8_minikube_automation
     targetRevision: main
     path: prometheus
     helm:
