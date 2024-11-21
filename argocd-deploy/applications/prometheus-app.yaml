@@ -11,7 +11,7 @@ spec:
     path: argocd-deploy/prometheus
     helm:
       valueFiles:
-        - prometheus/values.yaml
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
