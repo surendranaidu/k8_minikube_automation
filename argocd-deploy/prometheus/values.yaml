@@ -1,8 +1,0 @@
-prometheus:
-  prometheusSpec:
-    serviceMonitorSelectorNilUsesHelmValues: false
-alertmanager:
-  alertmanagerSpec:
-    replicas: 1
-grafana:
-  enabled: false
