@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+      - job_name: 'kubernetes-apiservers'
+        kubernetes_sd_configs:
+        - role: endpoints
+        scheme: https
+        tls_config:
+          ca_file: /etc/prometheus/secrets/ca.crt
+          cert_file: /etc/prometheus/secrets/tls.crt
+          key_file: /etc/prometheus/secrets/tls.key
+        bearer_token_file: /etc/prometheus/secrets/token
+      - job_name: 'kubernetes-nodes'
+        kubernetes_sd_configs:
+        - role: node
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+        - role: pod
+      - job_name: 'kubernetes-services'
+        kubernetes_sd_configs:
+        - role: service
+
