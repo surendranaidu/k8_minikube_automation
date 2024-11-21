@@ -11,7 +11,7 @@ spec:
     path: grafana
     helm:
       valueFiles:
-        - values.yaml
+        - prometheus/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
