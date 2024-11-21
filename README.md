@@ -11,3 +11,12 @@ This repository contains Kubernetes manifests for deploying a sample application
 ## Deploying with ArgoCD
 1. Set up an ArgoCD `Application` resource pointing to this repository and the `/application` directory.
 2. ArgoCD will automatically sync the manifests and manage your application in the specified Kubernetes cluster.
+
+
+
+## commands
+
+ - Get argocd admin password:
+   > kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
+ - Port-forward argocd:
+   > kubectl port-forward svc/argocd-server -n argocd 8080:443   
