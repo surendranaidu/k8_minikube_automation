@@ -11,7 +11,7 @@ spec:
     path: argocd-deploy/grafana
     helm:
       valueFiles:
-        - grafana/values.yaml
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
