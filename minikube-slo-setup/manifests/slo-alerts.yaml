@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: slo-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: slo-alerts
+      rules:
+        - alert: SLOViolation
+          expr: (1 - sum(rate(http_requests_total{status=~"2.."}[1m])) / sum(rate(http_requests_total[1m]))) > 0.001
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "SLO Violation Detected"
+            description: "The error rate has exceeded the threshold."
