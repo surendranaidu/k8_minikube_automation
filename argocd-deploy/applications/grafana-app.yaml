@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/surendranaidu/k8_minikube_automation
     targetRevision: main
-    path: grafana
+    path: argocd-deploy/grafana
     helm:
       valueFiles:
         - grafana/values.yaml
