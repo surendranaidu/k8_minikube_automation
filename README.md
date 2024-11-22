@@ -24,4 +24,9 @@ This repository contains Kubernetes manifests for deploying a sample application
    > kubectl port-forward svc/grafana -n monitoring 3100:80
 
    > kubectl port-forward svc/prometheus -n monitoring 9191:9090
+
+ **Note**:
+- Grafana Data Source Connection Prometheus server URL:
+  http://prometheus.monitoring.svc.cluster.local:9090
+
    
