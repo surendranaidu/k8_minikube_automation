@@ -38,7 +38,7 @@ jobs:
     # Check if there are changes before committing and pushing
     - name: Commit and push version change to Git
       run: |
-        git config --global user.name surendranaidu"
+        git config --global user.name "surendranaidu"
         git config --global user.email "pattipatisurendra@gmail.com" 
       
         git add .
