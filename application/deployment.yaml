@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: python-k8s-app
-        image: ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:${VERSION}
+        image: REPLACE_IMAGE_HERE
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
