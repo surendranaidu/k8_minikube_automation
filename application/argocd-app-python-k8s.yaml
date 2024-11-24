@@ -6,7 +6,7 @@ metadata:
 spec:
   source:
     repoURL: 'https://github.com/surendranaidu/k8_minikube_automation.git'
-    targetRevision: 'targetRevision'  # Branch or tag to watch
+    targetRevision: 'main'  # Branch or tag to watch
     path: 'application'  # Path to your deployment.yaml
   destination:
     server: 'https://kubernetes.default.svc'
