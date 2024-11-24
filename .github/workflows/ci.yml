@@ -40,7 +40,7 @@ jobs:
       run: |
         git config --global user.name "surendranaidu"
         git config --global user.email "pattipatisurendra@gmail.com" 
-      
+        
         git add .
         if ! git diff --cached --quiet; then
           git commit -m "Update version to $VERSION"
@@ -62,6 +62,11 @@ jobs:
       run: |
         mkdir -p $HOME/.kube  # Create the directory if it doesn't exist
         echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+
+    # Ensure there are no Windows paths in the kubeconfig file
+    - name: Fix kubeconfig paths for Linux
+      run: |
+        sed -i 's|C:\\Users\\SPattipati\\.minikube|/home/runner/.minikube|g' $HOME/.kube/config
 
     # Update deployment.yaml with the new version
     - name: Update deployment.yaml with version
