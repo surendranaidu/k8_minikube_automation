@@ -18,5 +18,15 @@ This repository contains Kubernetes manifests for deploying a sample application
 
  - Get argocd admin password:
    > kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
- - Port-forward argocd:
-   > kubectl port-forward svc/argocd-server -n argocd 8080:443   
+ - Port-forward argocd,grafana and prometheus:
+   > kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+   > kubectl port-forward svc/grafana -n monitoring 3100:80
+
+   > kubectl port-forward svc/prometheus -n monitoring 9191:9090
+
+ **Note**:
+- Grafana Data Source Connection Prometheus server URL:
+  http://prometheus.monitoring.svc.cluster.local:9090
+
+   
