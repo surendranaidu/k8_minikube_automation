@@ -34,18 +34,20 @@ jobs:
 
     # Build and push Docker image with version tag
     - name: Build and push Docker image
+      id: build-and-push  # Add an ID to reference the output later
       run: |
-        VERSION=$(date +%Y%m%d%H%M)  # Create a version based on current time
+        VERSION=$(date +%Y%m%d%H%M%S)  # Create a version based on current time
         DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-        docker build -t $DOCKER_USERNAME/python-k8s-app:$VERSION -f application/Dockerfile application/
-        docker push $DOCKER_USERNAME/python-k8s-app:$VERSION
+        IMAGE=$DOCKER_USERNAME/python-k8s-app:$VERSION
+        docker build -t $IMAGE -f application/Dockerfile application/
+        docker push $IMAGE
+        echo "VERSION=$VERSION" >> $GITHUB_ENV  # Save VERSION for reuse
 
     # Replace image placeholder in deployment.yaml
     - name: Update deployment.yaml with version
       run: |
         DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-        VERSION=$(date +%Y%m%d%H%M)
-        sed -i "s|REPLACE_IMAGE_HERE|$DOCKER_USERNAME/python-k8s-app:$VERSION|" application/deployment.yaml
+        sed -i "s|REPLACE_IMAGE_HERE|$DOCKER_USERNAME/python-k8s-app:${{ env.VERSION }}|" application/deployment.yaml
 
     # Commit and push updated deployment.yaml
     - name: Commit and push version change to Git
@@ -55,7 +57,7 @@ jobs:
         
         git add application/deployment.yaml
         if ! git diff --cached --quiet; then
-          git commit -m "Update deployment.yaml with image version $VERSION"
+          git commit -m "Update deployment.yaml with image version ${{ env.VERSION }}"
           git push origin main
         else
           echo "No changes to commit"
