@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-import urllib.parse  # Use this if you need URL encoding functionality
+from urllib.parse import quote as url_quote  # Use this instead of werkzeug.urls.url_quote
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
