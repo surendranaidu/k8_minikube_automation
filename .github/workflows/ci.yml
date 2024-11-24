@@ -31,5 +31,5 @@ jobs:
     # Build and push Docker image
     - name: Build and push Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-k8s-app:latest -f application/Dockerfile application/
-        docker push ${{ secrets.DOCKER_USERNAME }}/flask-k8s-app:latest
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:latest -f application/Dockerfile application/
+        docker push ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:latest
