@@ -63,10 +63,11 @@ jobs:
         mkdir -p $HOME/.kube  # Create the directory if it doesn't exist
         echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
 
-    # Ensure there are no Windows paths in the kubeconfig file
-    - name: Fix kubeconfig paths for Linux
+    # Fix Windows-style paths in the kubeconfig (if any)
+    - name: Fix Windows paths in kubeconfig
       run: |
-        sed -i 's|C:\\Users\\SPattipati\\.minikube|/home/runner/.minikube|g' $HOME/.kube/config
+        sed -i 's|\\|/|g' $HOME/.kube/config  # Replace backslashes with forward slashes
+        sed -i 's|C:/Users|/home/runner|g' $HOME/.kube/config  # Replace Windows user paths with Linux paths
 
     # Update deployment.yaml with the new version
     - name: Update deployment.yaml with version
