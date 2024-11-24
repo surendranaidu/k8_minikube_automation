@@ -39,7 +39,7 @@ jobs:
     - name: Commit and push version change to Git
       run: |
         git config --global user.name surendranaidu"
-        git config --global user.email "surendranaidu10@gmail.com" 
+        git config --global user.email "pattipatisurendra@gmail.com" 
       
         git add .
         if ! git diff --cached --quiet; then
