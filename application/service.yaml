@@ -1,13 +1,14 @@
+# service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-app-service
-  labels:
-    app: my-app
+  name: python-k8s-app-service
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 80
   selector:
-    app: my-app
+    app: python-k8s-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
+
