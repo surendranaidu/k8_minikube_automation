@@ -18,6 +18,7 @@ spec:
       containers:
       - name: python-k8s-app
         image: surendranaidu/python-k8s-app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
 
