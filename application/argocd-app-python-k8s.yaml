@@ -7,10 +7,11 @@ spec:
   source:
     repoURL: 'https://github.com/surendranaidu/k8_minikube_automation.git'
     targetRevision: 'main'  # Branch or tag to watch
-    path: application  # Path to your deployment.yaml
+    path: 'application'  # Path to your deployment.yaml
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: default 
+    namespace: default  # Specify the namespace where you want to deploy the application
+  project: default  # Make sure 'default' project is set
   syncPolicy:
     automated:
       prune: true
