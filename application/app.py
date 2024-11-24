@@ -32,8 +32,9 @@ class Task(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     assigned_to = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
-# Create tables
-db.create_all()
+# Create tables within an app context
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def home():
