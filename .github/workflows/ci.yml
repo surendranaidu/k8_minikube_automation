@@ -55,8 +55,6 @@ jobs:
     - name: Commit and push version change to Git
       run: |
         git config --global user.name "surendranaidu"
-        git config --global user.email "pattipatisurendra@gmail.com"
-        
         git add application/deployment.yaml
         if ! git diff --cached --quiet; then
           git commit -m "Update deployment.yaml with image version ${{ env.VERSION }}"
