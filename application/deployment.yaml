@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: python-k8s-app
-        image: REPLACE_IMAGE_HERE
+        image: surendranaidu/python-k8s-app:20241124124452
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
