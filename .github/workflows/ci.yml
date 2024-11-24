@@ -35,7 +35,7 @@ jobs:
     # Build and push Docker image with version tag
     - name: Build and push Docker image
       run: |
-        VERSION=$(date +%Y%m%d%H%Mk8)  # Create a version based on current time
+        VERSION=$(date +%Y%m%d%H%M)  # Create a version based on current time
         DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
         docker build -t $DOCKER_USERNAME/python-k8s-app:$VERSION -f application/Dockerfile application/
         docker push $DOCKER_USERNAME/python-k8s-app:$VERSION
@@ -44,7 +44,7 @@ jobs:
     - name: Update deployment.yaml with version
       run: |
         DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-        VERSION=$(date +%Y%m%d%H%Mk8)
+        VERSION=$(date +%Y%m%d%H%M)
         sed -i "s|REPLACE_IMAGE_HERE|$DOCKER_USERNAME/python-k8s-app:$VERSION|" application/deployment.yaml
 
     # Commit and push updated deployment.yaml
