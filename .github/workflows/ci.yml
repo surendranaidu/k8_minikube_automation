@@ -31,20 +31,25 @@ jobs:
     # Build and push Docker image with version tag
     - name: Build and push Docker image
       run: |
-        VERSION=$(date +%Y%m%d%H%M%S)  # Create a version based on the current timestamp
+        VERSION=$(date +%Y%m%d%H%M%S)  # Create a version based on current time
         docker build -t ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:$VERSION -f application/Dockerfile application/
         docker push ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:$VERSION
 
-    # Commit and push version change to Git
+    # Check if there are changes before committing and pushing
     - name: Commit and push version change to Git
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
+        git config --global user.name surendranaidu"
+        git config --global user.email "surendranaidu10@gmail.com" 
+      
         git add .
-        git commit -m "Update version to $VERSION"
-        git tag $VERSION  # Tag the commit with the version
-        git push origin main
-        git push origin $VERSION  # Push the tag to the repository
+        if ! git diff --cached --quiet; then
+          git commit -m "Update version to $VERSION"
+          git tag $VERSION  # Tag the commit with the version
+          git push origin main
+          git push origin $VERSION  # Push the tag to the repository
+        else
+          echo "No changes to commit"
+        fi
 
     # Set up kubectl to interact with Kubernetes
     - name: Set up kubectl
@@ -55,9 +60,9 @@ jobs:
     # Configure kubectl using the stored kubeconfig secret
     - name: Configure kubectl
       run: |
-        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
 
-    # Update deployment.yaml with the new version tag
+    # Update deployment.yaml with the new version
     - name: Update deployment.yaml with version
       run: |
         sed -i 's|image: ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:.*|image: ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:$VERSION|' application/deployment.yaml
