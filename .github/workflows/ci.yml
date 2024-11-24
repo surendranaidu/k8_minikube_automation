@@ -34,7 +34,10 @@ jobs:
         VERSION=$(date +%Y%m%d%H%M%S)  # Create a version based on current time
         docker build -t ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:$VERSION -f application/Dockerfile application/
         docker push ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:$VERSION
-
+    # Update deployment.yaml with the new version
+    - name: Update deployment.yaml with version
+      run: |
+        sed -i 's|image: ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:.*|image: ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:$VERSION|' application/deployment.yaml
     # Check if there are changes before committing and pushing
     - name: Commit and push version change to Git
       run: |
@@ -50,32 +53,3 @@ jobs:
         else
           echo "No changes to commit"
         fi
-
-    # Set up kubectl to interact with Kubernetes
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-        version: 'latest'
-
-    # Configure kubectl using the stored kubeconfig secret
-    - name: Configure kubectl
-      run: |
-        mkdir -p $HOME/.kube  # Create the directory if it doesn't exist
-        echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
-
-    # Fix Windows-style paths in the kubeconfig (if any)
-    - name: Fix Windows paths in kubeconfig
-      run: |
-        sed -i 's|\\|/|g' $HOME/.kube/config  # Replace backslashes with forward slashes
-        sed -i 's|C:/Users|/home/runner|g' $HOME/.kube/config  # Replace Windows user paths with Linux paths
-
-    # Update deployment.yaml with the new version
-    - name: Update deployment.yaml with version
-      run: |
-        sed -i 's|image: ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:.*|image: ${{ secrets.DOCKER_USERNAME }}/python-k8s-app:$VERSION|' application/deployment.yaml
-
-    # Deploy the application to Kubernetes
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl apply -f application/deployment.yaml
-        kubectl apply -f application/service.yaml
