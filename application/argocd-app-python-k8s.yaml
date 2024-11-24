@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: python-k8s-app
+  namespace: argocd
+spec:
+  source:
+    repoURL: 'https://github.com/surendranaidu/k8_minikube_automation.git'
+    targetRevision: 'main'  # Branch or tag to watch
+    path: application  # Path to your deployment.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default 
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
