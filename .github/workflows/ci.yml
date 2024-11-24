@@ -17,10 +17,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Check Git version
-    - name: Check Git version
-      run: git --version
-
     # Set up Docker
     - name: Set up Docker
       uses: docker/setup-buildx-action@v2
@@ -34,20 +30,26 @@ jobs:
 
     # Build and push Docker image with version tag
     - name: Build and push Docker image
-      id: build-and-push  # Add an ID to reference the output later
+      id: build-and-push
       run: |
         VERSION=$(date +%Y%m%d%H%M%S)  # Create a version based on current time
         DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
         IMAGE=$DOCKER_USERNAME/python-k8s-app:$VERSION
         docker build -t $IMAGE -f application/Dockerfile application/
         docker push $IMAGE
-        echo "VERSION=$VERSION" >> $GITHUB_ENV  # Save VERSION for reuse
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "IMAGE=$IMAGE" >> $GITHUB_ENV
 
     # Replace image placeholder in deployment.yaml
     - name: Update deployment.yaml with version
       run: |
-        DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-        sed -i "s|REPLACE_IMAGE_HERE|$DOCKER_USERNAME/python-k8s-app:${{ env.VERSION }}|" application/deployment.yaml
+        IMAGE=${{ env.IMAGE }}
+        sed -i "s|image: .*|image: $IMAGE|" application/deployment.yaml
+        echo "Updated deployment.yaml with image: $IMAGE"
+
+    # Debug deployment.yaml
+    - name: Print deployment.yaml
+      run: cat application/deployment.yaml
 
     # Commit and push updated deployment.yaml
     - name: Commit and push version change to Git
