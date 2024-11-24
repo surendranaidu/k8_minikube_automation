@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+</head>
+<body>
+    <h1>Tasks for Project: {{ project.name }}</h1>
+    <nav>
+        <a href="/dashboard">Dashboard</a> | 
+        <a href="/projects">Projects</a> | 
+        <a href="/create_task?project_id={{ project.id }}">Create Task</a> | 
+        <a href="/create_project">Create Project</a>
+    </nav>
+    <h2>Tasks</h2>
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <strong>{{ task.title }}</strong><br>
+                    Description: {{ task.description }}<br>
+                    Status: {{ task.status }}<br>
+                    Assigned to: {{ task.assigned_to.username }}<br>
+                    <a href="/task/{{ task.id }}">View Task</a> | 
+                    <a href="/edit_task/{{ task.id }}">Edit Task</a> | 
+                    <a href="/delete_task/{{ task.id }}" onclick="return confirm('Are you sure?')">Delete Task</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks found for this project. <a href="/create_task?project_id={{ project.id }}">Create a task</a></p>
+    {% endif %}
+</body>
+</html>
+

@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Projects</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
+    <h1>Projects</h1>
     <nav>
         <a href="/">Home</a> | 
-        <a href="/projects">Projects</a> | 
-        <a href="/create_project">Create Project</a> | 
-        <a href="/login">Logout</a>
+        <a href="/dashboard">Dashboard</a> | 
+        <a href="/create_project">Create Project</a>
     </nav>
-    <h2>Projects</h2>
+    <h2>All Projects</h2>
     <ul>
         {% for project in projects %}
-        <li><a href="{{ url_for('tasks', project_id=project.id) }}">{{ project.name }}</a></li>
+        <li>
+            <a href="{{ url_for('tasks', project_id=project.id) }}">{{ project.name }}</a> - {{ project.description }}
+        </li>
         {% else %}
         <li>No projects available. <a href="/create_project">Create a project</a></li>
         {% endfor %}
