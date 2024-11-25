@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cadvisor
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/surendranaidu/k8_minikube_automation.git'
+    targetRevision: HEAD
+    path: argocd-deploy/cadvisor
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
